@@ -6,11 +6,11 @@ module.exports = function(webserver, controller) {
   if (webserver && controller.config.studio_token) {
     webserver.use((req, res, next) => {
       if (!registered_this_session) {
-                // get URL from the request
+        // get URL from the request
         const host = req.get('host');
 
-                // information about this instance of Botkit
-                // send to Botkit Studio in order to display in the hosting tab
+        // information about this instance of Botkit
+        // send to Botkit Studio in order to display in the hosting tab
         const instance = {
           url: host,
           version: controller.version(),

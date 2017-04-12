@@ -1,7 +1,7 @@
 const debug = require('debug')('botkit:user_registration');
 
 module.exports = function(controller) {
-    /* Handle event caused by a user logging in with oauth */
+  /* Handle event caused by a user logging in with oauth */
   controller.on('oauth:success', (payload) => {
     debug('Got a successful login!', payload);
     if (!payload.identity.team_id) {
@@ -38,11 +38,11 @@ module.exports = function(controller) {
         } else {
           team.bot.name = bot_auth.user;
 
-                    // add in info that is expected by Botkit
+          // add in info that is expected by Botkit
           testbot.identity = bot_auth;
           testbot.team_info = team;
 
-                    // Replace this with your own database!
+          // Replace this with your own database!
 
           controller.storage.teams.save(team, (err, id) => {
             if (err) {
@@ -62,17 +62,17 @@ module.exports = function(controller) {
   controller.on('create_team', (bot, team) => {
     debug('Team created:', team);
 
-        // Trigger an event that will establish an RTM connection for this bot
+    // Trigger an event that will establish an RTM connection for this bot
     controller.trigger('rtm:start', [bot.config]);
 
-        // Trigger an event that will cause this team to receive onboarding messages
+    // Trigger an event that will cause this team to receive onboarding messages
     controller.trigger('onboard', [bot, team]);
   });
 
 
   controller.on('update_team', (bot, team) => {
     debug('Team updated:', team);
-        // Trigger an event that will establish an RTM connection for this bot
+    // Trigger an event that will establish an RTM connection for this bot
     controller.trigger('rtm:start', [bot]);
   });
 };

@@ -1,57 +1,57 @@
 require('./build-support/check-node-version');
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           ______     ______     ______   __  __     __     ______
-          /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
-          \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
-           \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
-            \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
+ ______     ______     ______   __  __     __     ______
+ /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
+ \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
+ \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
+ \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
 
 
-This is a sample Slack bot built with Botkit.
+ This is a sample Slack bot built with Botkit.
 
-This bot demonstrates many of the core features of Botkit:
+ This bot demonstrates many of the core features of Botkit:
 
-* Connect to Slack using the real time API
-* Receive messages based on "spoken" patterns
-* Reply to messages
-* Use the conversation system to ask questions
-* Use the built in storage system to store and retrieve information
-  for a user.
+ * Connect to Slack using the real time API
+ * Receive messages based on "spoken" patterns
+ * Reply to messages
+ * Use the conversation system to ask questions
+ * Use the built in storage system to store and retrieve information
+ for a user.
 
-# RUN THE BOT:
+ # RUN THE BOT:
 
-  Create a new app via the Slack Developer site:
+ Create a new app via the Slack Developer site:
 
-    -> http://api.slack.com
+ -> http://api.slack.com
 
-  Get a Botkit Studio token from Botkit.ai:
+ Get a Botkit Studio token from Botkit.ai:
 
-    -> https://studio.botkit.ai/
+ -> https://studio.botkit.ai/
 
-  Run your bot from the command line:
+ Run your bot from the command line:
 
-    clientId=<MY SLACK TOKEN> clientSecret=<my client secret> PORT=<3000> studio_token=<MY BOTKIT STUDIO TOKEN> node bot.js
+ clientId=<MY SLACK TOKEN> clientSecret=<my client secret> PORT=<3000> studio_token=<MY BOTKIT STUDIO TOKEN> node bot.js
 
-# USE THE BOT:
+ # USE THE BOT:
 
-    Navigate to the built-in login page:
+ Navigate to the built-in login page:
 
-    https://<myhost.com>/login
+ https://<myhost.com>/login
 
-    This will authenticate you with Slack.
+ This will authenticate you with Slack.
 
-    If successful, your bot will come online and greet you.
+ If successful, your bot will come online and greet you.
 
 
-# EXTEND THE BOT:
+ # EXTEND THE BOT:
 
-  Botkit has many features for building cool and useful bots!
+ Botkit has many features for building cool and useful bots!
 
-  Read all about it here:
+ Read all about it here:
 
-    -> http://howdy.ai/botkit
+ -> http://howdy.ai/botkit
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 const env = require('node-env-file');
 env(`${__dirname}/.env`);
 
@@ -69,7 +69,7 @@ const debug = require('debug')('botkit:main');
 const controller = Botkit.slackbot({
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
-    // debug: true,
+  // debug: true,
   scopes: ['bot'],
   studio_token: process.env.studio_token,
   studio_command_uri: process.env.studio_command_uri,
@@ -116,14 +116,14 @@ if (process.env.studio_token) {
   controller.on('direct_message,direct_mention,mention', (bot, message) => {
     controller.studio.runTrigger(bot, message.text, message.user, message.channel).then((convo) => {
       if (!convo) {
-                // no trigger was matched
-                // If you want your bot to respond to every message,
-                // define a 'fallback' script in Botkit Studio
-                // and uncomment the line below.
-                // controller.studio.run(bot, 'fallback', message.user, message.channel);
+        // no trigger was matched
+        // If you want your bot to respond to every message,
+        // define a 'fallback' script in Botkit Studio
+        // and uncomment the line below.
+        // controller.studio.run(bot, 'fallback', message.user, message.channel);
       } else {
-                // set variables here that are needed for EVERY script
-                // use controller.studio.before('script') to set variables specific to a script
+        // set variables here that are needed for EVERY script
+        // use controller.studio.before('script') to set variables specific to a script
         convo.setVar('current_time', new Date());
       }
     }).catch((err) => {

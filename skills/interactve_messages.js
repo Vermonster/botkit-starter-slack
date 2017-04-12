@@ -1,7 +1,7 @@
 module.exports = function(controller) {
-    // create special handlers for certain actions in buttons
-    // if the button action is 'action', trigger an event
-    // if the button action is 'say', act as if user said that thing
+  // create special handlers for certain actions in buttons
+  // if the button action is 'action', trigger an event
+  // if the button action is 'say', act as if user said that thing
   controller.on('interactive_message_callback', (bot, trigger) => {
     if (trigger.actions[0].name.match(/^action$/)) {
       controller.trigger(trigger.actions[0].value, [bot, trigger]);
@@ -30,7 +30,7 @@ module.exports = function(controller) {
         {
           text: `${person} said, ${trigger.actions[0].value}`
         }
-            );
+      );
 
       bot.replyInteractive(trigger, reply);
 

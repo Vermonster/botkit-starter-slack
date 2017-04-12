@@ -6,15 +6,15 @@
   "website": "https://studio.botkit.ai/",
   "success_url":"/",
   "env": {
-      "clientId": {
-          "description": "Client ID provided by Slack"
-      },
-      "clientSecret": {
-          "description": "Client Secret provided by Slack"
-      },
-      "studio_token": {
-          "description": "Token associated with your bot in Botkit Studio",
-          "required":false
-      }
+    "clientId": {
+      "description": "Client ID provided by Slack"
+    },
+    "clientSecret": {
+      "description": "Client Secret provided by Slack"
+    },
+    "studio_token": {
+      "description": "Token associated with your bot in Botkit Studio",
+      "required":false
+    }
   }
 }

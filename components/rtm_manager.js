@@ -3,18 +3,18 @@ const debug = require('debug')('botkit:rtm_manager');
 module.exports = function(controller) {
   const managed_bots = {};
 
-    // Capture the rtm:start event and actually start the RTM...
+  // Capture the rtm:start event and actually start the RTM...
   controller.on('rtm:start', (config) => {
     const bot = controller.spawn(config);
     manager.start(bot);
   });
 
-    //
+  //
   controller.on('rtm_close', (bot) => {
     manager.remove(bot);
   });
 
-    // The manager object exposes some useful tools for managing the RTM
+  // The manager object exposes some useful tools for managing the RTM
   var manager = {
     start(bot) {
       if (managed_bots[bot.config.token]) {

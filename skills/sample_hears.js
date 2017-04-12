@@ -1,18 +1,18 @@
 /*
 
-WHAT IS THIS?
+ WHAT IS THIS?
 
-This module demonstrates simple uses of Botkit's `hears` handler functions.
+ This module demonstrates simple uses of Botkit's `hears` handler functions.
 
-In these examples, Botkit is configured to listen for certain phrases, and then
-respond immediately with a single line response.
+ In these examples, Botkit is configured to listen for certain phrases, and then
+ respond immediately with a single line response.
 
-*/
+ */
 
 const wordfilter = require('wordfilter');
 
 module.exports = function(controller) {
-    /* Collect some very simple runtime stats for use in the uptime/debug command */
+  /* Collect some very simple runtime stats for use in the uptime/debug command */
   const stats = {
     triggers: 0,
     convos: 0
@@ -53,13 +53,13 @@ module.exports = function(controller) {
   });
 
 
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-    /* Utility function to format uptime */
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* Utility function to format uptime */
   function formatUptime(uptime) {
     let unit = 'second';
     if (uptime > 60) {
