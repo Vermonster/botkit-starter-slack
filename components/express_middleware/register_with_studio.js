@@ -1,11 +1,15 @@
 const request = require('request');
 const debug = require('debug')('botkit:register_with_studio');
-module.exports = function(webserver, controller) {
-  let registered_this_session = false;
 
-  if (webserver && controller.config.studio_token) {
+const DEFAULT_COMMAND_URI = 'https://studio.botkit.ai';
+
+module.exports = function(webserver, controller) {
+  let registeredThisSession = false;
+  const { studio_token: studioToken, studio_command_uri: studioCommandUri = DEFAULT_COMMAND_URI } = controller.config;
+
+  if (webserver && studioToken) {
     webserver.use((req, res, next) => {
-      if (!registered_this_session) {
+      if (!registeredThisSession) {
         // get URL from the request
         const host = req.get('host');
 
@@ -19,19 +23,19 @@ module.exports = function(webserver, controller) {
 
         request({
           method: 'post',
-          uri: `${controller.config.studio_command_uri || 'https://studio.botkit.ai'}/api/v1/bots/phonehome?access_token=${controller.config.studio_token}`,
+          uri: `${studioCommandUri}/api/v1/bots/phonehome?access_token=${studioToken}`,
           form: instance
-        }, (err, res, body) => {
-          registered_this_session = true;
+        }, (registerError, registerResponse, body) => {
+          registeredThisSession = true;
 
-          if (err) {
-            debug('Error registering instance with Botkit Studio', err);
+          if (registerError) {
+            debug('Error registering instance with Botkit Studio', registerError);
           } else {
             let json = null;
             try {
               json = JSON.parse(body);
-            } catch (err) {
-              debug('Error registering instance with Botkit Studio', err);
+            } catch (jsonParseError) {
+              debug('Error registering instance with Botkit Studio', jsonParseError);
             }
 
             if (json) {
