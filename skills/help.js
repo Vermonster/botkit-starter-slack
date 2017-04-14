@@ -5,7 +5,8 @@ module.exports = function(controller) {
   controller.studio.before('help', (convo, next) => {
     // is there a parameter on the help command?
     // if so, change topic.
-    if (matches = convo.source_message.text.match(/^help (.*)/i)) {
+    const matches = convo.source_message.text.match(/^help (.*)/i);
+    if (matches) {
       if (convo.hasThread(matches[1])) {
         convo.gotoThread(matches[1]);
       }
