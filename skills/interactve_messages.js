@@ -17,25 +17,25 @@ module.exports = function(controller) {
 
       const reply = trigger.original_message;
 
-      for (let a = 0; a < reply.attachments.length; a++) {
-        reply.attachments[a].actions = null;
-      }
+      reply.attachments.forEach((item) => {
+        // eslint-disable-next-line no-param-reassign
+        item.actions = null;
+      });
 
       let person = `<@${trigger.user.id}>`;
-      if (message.channel[0] == 'D') {
+      if (message.channel[0] === 'D') {
         person = 'You';
       }
 
-      reply.attachments.push(
-        {
-          text: `${person} said, ${trigger.actions[0].value}`
-        }
-      );
+      reply.attachments.push({
+        text: `${person} said, ${trigger.actions[0].value}`
+      });
 
       bot.replyInteractive(trigger, reply);
 
       controller.receiveMessage(bot, message);
       return false; // do not bubble event
     }
+    return undefined;
   });
 };
