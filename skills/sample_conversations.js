@@ -11,40 +11,39 @@
 
 module.exports = function(controller) {
   controller.hears(['color'], 'direct_message,direct_mention', (bot, message) => {
-    bot.startConversation(message, (err, convo) => {
-      convo.say('This is an example of using convo.ask with a single callback.');
+    bot.startConversation(message, (err, outerConvo) => {
+      outerConvo.say('This is an example of using convo.ask with a single callback.');
 
-      convo.ask('What is your favorite color?', (response, convo) => {
+      outerConvo.ask('What is your favorite color?', (response, convo) => {
         convo.say(`Cool, I like ${response.text} too!`);
         convo.next();
       });
     });
   });
 
-
   controller.hears(['question'], 'direct_message,direct_mention', (bot, message) => {
-    bot.createConversation(message, (err, convo) => {
+    bot.createConversation(message, (err, outerConvo) => {
       // create a path for when a user says YES
-      convo.addMessage({
+      outerConvo.addMessage({
         text: 'How wonderful.'
       }, 'yes_thread');
 
       // create a path for when a user says NO
       // mark the conversation as unsuccessful at the end
-      convo.addMessage({
+      outerConvo.addMessage({
         text: 'Cheese! It is not for everyone.',
         action: 'stop' // this marks the converation as unsuccessful
       }, 'no_thread');
 
-      // create a path where neither option was matched
-      // this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
-      convo.addMessage({
+      // create a path where neither option was matched;  this message has an action field, which directs botkit to
+      // go back to the `default` thread after sending this message.
+      outerConvo.addMessage({
         text: 'Sorry I did not understand. Say `yes` or `no`',
         action: 'default'
       }, 'bad_response');
 
       // Create a yes/no question in the default thread...
-      convo.ask('Do you like cheese?', [
+      outerConvo.ask('Do you like cheese?', [
         {
           pattern: bot.utterances.yes,
           callback(response, convo) {
@@ -65,10 +64,10 @@ module.exports = function(controller) {
         }
       ]);
 
-      convo.activate();
+      outerConvo.activate();
 
       // capture the results of the conversation and see what happened...
-      convo.on('end', (convo) => {
+      outerConvo.on('end', (convo) => {
         if (convo.successful()) {
           // this still works to send individual replies...
           bot.reply(message, 'Let us eat some!');
