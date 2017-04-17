@@ -56,7 +56,7 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
-const pluginDashbot = require('./components/plugin_dashbot.js');
+const pluginDashbot = require('./components/plugin-dashbot.js');
 
 const usageTip = function() {
   console.log('~~~~~~~~~~');
@@ -76,7 +76,7 @@ if (!clientId || !clientSecret || !PORT) {
 }
 
 const Botkit = require('botkit');
-const bindWebserverToController = require('./components/express_webserver.js');
+const bindWebserverToController = require('./components/express-webserver.js');
 const debug = require('debug')('botkit:main');
 
 // Create the Botkit controller, which controls all instances of the bot.
@@ -97,7 +97,7 @@ bindWebserverToController(controller);
 
 // Set up a simple storage backend for keeping a record of customers
 // who sign up for the app via the oauth
-require('./components/user_registration.js')(controller);
+require('./components/user-registration.js')(controller);
 
 // Send an onboarding message when a new team joins
 require('./components/onboarding.js')(controller);

@@ -14,10 +14,10 @@ module.exports = function(controller) {
   webserver.use(bodyParser.urlencoded({ extended: true }));
 
   // import express middlewares that are present in /components/express_middleware
-  const middlewarePath = path.join(__dirname, 'express_middleware');
+  const middlewarePath = path.join(__dirname, 'express-middleware');
   fs.readdirSync(middlewarePath).forEach((file) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(`./express_middleware/${file}`)(webserver, controller);
+    require(`./express-middleware/${file}`)(webserver, controller);
   });
 
   webserver.use(express.static('public'));
