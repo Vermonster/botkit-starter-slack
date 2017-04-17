@@ -54,9 +54,7 @@ require('./build-support/check-node-version');
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 const fs = require('fs');
 const path = require('path');
-const env = require('node-env-file');
-
-env(`${__dirname}/.env`);
+require('dotenv').config();
 
 const pluginDashbot = require('./components/plugin_dashbot.js');
 
