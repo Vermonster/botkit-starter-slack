@@ -30,7 +30,7 @@ require('./build-support/check-node-version');
 
  Run your bot from the command line:
 
- clientId=<MY SLACK TOKEN> clientSecret=<my client secret> PORT=<3000> studio_token=<MY BOTKIT STUDIO TOKEN> node bot.js
+ CLIENT_ID=<SLACK TOKEN> CLIENT_SECRET=<CLIENT SECRET> PORT=<3000> STUDIO_TOKEN=<BOTKIT STUDIO TOKEN> node bot.js
 
  # USE THE BOT:
 
@@ -62,17 +62,17 @@ const usageTip = function() {
   console.log('~~~~~~~~~~');
   console.log('Botkit Starter Kit');
   console.log('Execute your bot application like this:');
-  console.log('clientId=<SLACK CLIENT ID> clientSecret=<CLIENT SECRET> PORT=3000 node bot.js');
+  console.log('CLIENT_ID=<SLACK CLIENT ID> CLIENT_SECRET=<CLIENT SECRET> PORT=3000 node bot.js');
   console.log('Get Slack app credentials here: https://api.slack.com/apps');
   console.log('Get a Botkit Studio token here: https://studio.botkit.ai/');
   console.log('~~~~~~~~~~');
 };
 
-const { clientId, clientSecret, PORT, studio_token, studio_command_uri } = process.env;
+const { CLIENT_ID, CLIENT_SECRET, PORT, STUDIO_TOKEN, STUDIO_COMMAND_URI } = process.env;
 
-if (!clientId || !clientSecret || !PORT) {
+if (!CLIENT_ID || !CLIENT_SECRET || !PORT) {
   usageTip();
-  throw new Error('Specify clientId clientSecret and PORT in environment');
+  throw new Error('Specify CLIENT_ID CLIENT_SECRET and PORT in environment');
 }
 
 const Botkit = require('botkit');
@@ -81,12 +81,12 @@ const debug = require('debug')('botkit:main');
 
 // Create the Botkit controller, which controls all instances of the bot.
 const controller = Botkit.slackbot({
-  clientId,
-  clientSecret,
+  clientId: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
   // debug: true,
   scopes: ['bot'],
-  studio_token,
-  studio_command_uri,
+  studio_token: STUDIO_TOKEN,
+  studio_command_uri: STUDIO_COMMAND_URI,
   json_file_store: `${__dirname}/.db/` // store user data in a simple JSON format
 });
 
@@ -127,7 +127,7 @@ fs.readdirSync(normalizedPath).forEach((file) => {
 // If a trigger is matched, the conversation will automatically fire!
 // You can tie into the execution of the script using the functions
 // controller.studio.before, controller.studio.after and controller.studio.validate
-if (process.env.studio_token) {
+if (STUDIO_TOKEN) {
   controller.on('direct_message,direct_mention,mention', (bot, message) => {
     controller.studio.runTrigger(bot, message.text, message.user, message.channel).then((convo) => {
       if (!convo) {
@@ -149,5 +149,5 @@ if (process.env.studio_token) {
 } else {
   console.log('~~~~~~~~~~');
   console.log('NOTE: Botkit Studio functionality has not been enabled');
-  console.log('To enable, pass in a studio_token parameter with a token from https://studio.botkit.ai/');
+  console.log('To enable, pass in a STUDIO_TOKEN parameter with a token from https://studio.botkit.ai/');
 }
