@@ -8,6 +8,7 @@ module.exports = function(webserver, controller) {
     oauth(req, res) {
       const code = req.query.code;
       const state = req.query.state;
+      debug('state: ', state);
 
       // we need to use the Slack API, so spawn a generic bot with no token
       const slackapi = controller.spawn({});
@@ -18,21 +19,22 @@ module.exports = function(webserver, controller) {
         code
       };
 
-      slackapi.api.oauth.access(opts, (err, auth) => {
-        if (err) {
-          debug('Error confirming oauth', err);
+      slackapi.api.oauth.access(opts, (oauthConfirmationError, auth) => {
+        if (oauthConfirmationError) {
+          debug('Error confirming oauth', oauthConfirmationError);
           return res.redirect('/login_error.html');
         }
 
         // what scopes did we get approved for?
-        const scopes = auth.scope.split(/\,/);
+        const scopes = auth.scope.split(/,/);
+        debug('scopes: ', scopes);
 
         // use the token we got from the oauth
         // to call auth.test to make sure the token is valid
         // but also so that we reliably have the team_id field!
-        slackapi.api.auth.test({ token: auth.access_token }, (err, identity) => {
-          if (err) {
-            debug('Error fetching user identity', err);
+        slackapi.api.auth.test({ token: auth.access_token }, (fetchUserIdentityError, identity) => {
+          if (fetchUserIdentityError) {
+            debug('Error fetching user identity', fetchUserIdentityError);
             return res.redirect('/login_error.html');
           }
 
@@ -45,13 +47,15 @@ module.exports = function(webserver, controller) {
           // a botkit event here with the payload so it can be handled
           // by the developer without meddling with the actual oauth route.
 
-          auth.identity = identity;
-          controller.trigger('oauth:success', [auth]);
+          const authPayload = Object.assign({}, auth, { identity });
+          controller.trigger('oauth:success', [authPayload]);
 
           res.cookie('team_id', auth.team_id);
           res.cookie('bot_user_id', auth.bot.bot_user_id);
           res.redirect('/login_success.html');
+          return undefined;
         });
+        return undefined;
       });
     }
   };
