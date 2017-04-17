@@ -15,6 +15,7 @@ module.exports = {
     "sourceType": "module"
   },
   "plugins" : [
+    "filenames",
     "node"
   ],
   "settings": {
@@ -29,6 +30,9 @@ module.exports = {
     "dot-location"                                 : [2, "property"],
     "eol-last"                                     : 2,
     "eqeqeq"                                       : [2, "allow-null"],
+    "filenames/match-regex"                        : [2, "^[a-z\-]+$", true],
+    "filenames/match-exported"                     : [ 2, "kebab" ],
+    "filenames/no-index"                           : 2,
     "func-names"                                   : [2, "never"],
     "func-style"                                   : [2, "expression", {"allowArrowFunctions": true}],
     "id-blacklist"                                 : [2, "moment"],
